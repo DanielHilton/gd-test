@@ -8,7 +8,8 @@ class RepoList extends Component {
 
         this.state = {
             errored: false,
-            repoData: undefined
+            repoData: [],
+            isLoading: false
         };
     }
 
@@ -17,7 +18,7 @@ class RepoList extends Component {
     }
 
     componentDidUpdate(oldProps) {
-        if(oldProps.githubAccount !== this.props.githubAccount) {
+        if (oldProps.githubAccount !== this.props.githubAccount) {
             this.retrieveAccountInfo(this.props.githubAccount);
         }
     }
@@ -27,6 +28,7 @@ class RepoList extends Component {
     }
 
     async retrieveAccountInfo(githubAccount) {
+        this.setState({isLoading: true});
         let transientState = {errored: false};
 
         try {
@@ -39,10 +41,11 @@ class RepoList extends Component {
                 transientState.repoData = body;
             }
         } catch (err) {
+            console.warn(`An error occcurred when retrieving repo data ${err}`)
             transientState.errored = true;
         }
 
-        this.setState(transientState);
+        this.setState({...transientState, isLoading: false});
     }
 
     render() {
@@ -50,12 +53,12 @@ class RepoList extends Component {
             return <h2>Failed!</h2>
         }
 
-        if(this.state.repoData === undefined)
+        if (this.state.isLoading)
             return <h3>Loading...</h3>;
 
         return this.state.repoData.length ?
             <ul>{this.generateRepoItems(this.state.repoData)}</ul> :
-            <h2>No data for {this.props.githubAccount}</h2>
+            <h3>No repos found.</h3>
     }
 }
 

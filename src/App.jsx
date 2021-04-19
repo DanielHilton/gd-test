@@ -23,16 +23,24 @@ class App extends Component {
 
                 <form>
                     <label htmlFor="accountInput">Enter a GitHub Account: </label>
-                    <input id="accountInput" placeholder={this.state.githubAccount} onChange={event => {this.dirtyAccountName = event.target.value}}/>
-                    <button onClick={e => {
-                        e.preventDefault();
-                        this.updateAccount(this.dirtyAccountName);
-                    }}>Search</button>
+                    <input id="accountInput" placeholder={this.state.githubAccount} onChange={event => {
+                        this.dirtyAccountName = event.target.value
+                    }}/>
+                    <button onClick={e => {e.preventDefault(); this.updateAccount(this.dirtyAccountName);}}>Search</button>
                 </form>
             </header>
             <div className="App-body">
-                <h2>Repos for {this.state.githubAccount}</h2>
-                <RepoList githubAccount={this.state.githubAccount}/>
+                <table className="App-container">
+                    <tr>
+                        <td>
+                            <h2>Repos for {this.state.githubAccount}</h2>
+                            <RepoList githubAccount={this.state.githubAccount}/>
+                        </td>
+                        <td>
+                            FUCK
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     };
