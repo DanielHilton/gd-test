@@ -7,21 +7,32 @@ class App extends Component {
         super(props);
 
         this.state = {
-            repos: []
+            githubAccount: 'godaddy',
+            repoData: []
         };
     }
 
-    componentDidMount() {
-
+    updateAccount(accountName) {
+        this.setState({githubAccount: accountName || 'godaddy'});
     }
 
     render() {
         return <div className="App">
             <header className="App-header">
                 <h1>GitHub Repo List</h1>
+
+                <form>
+                    <label htmlFor="accountInput">Enter a GitHub Account: </label>
+                    <input id="accountInput" placeholder={this.state.githubAccount} onChange={event => {this.dirtyAccountName = event.target.value}}/>
+                    <button onClick={e => {
+                        e.preventDefault();
+                        this.updateAccount(this.dirtyAccountName);
+                    }}>Search</button>
+                </form>
             </header>
             <div className="App-body">
-                <RepoList githubAccount="godaddy"/>
+                <h2>Repos for {this.state.githubAccount}</h2>
+                <RepoList githubAccount={this.state.githubAccount}/>
             </div>
         </div>
     };
